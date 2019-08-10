@@ -79,26 +79,28 @@ class AppRepository extends Disposable {
     });
   }
 
-  Future<MessageModel> random()async {
-    var query = """
-      subscription {
-        messages(order_by: {id: desc}) {
-          content
-          id
-          user {
-            name
-            id
-          }
-        }
-      }
-    """;
+  // Future<MessageModel> random()async {
+  //   var query = """
+  //     subscription {
+  //       messages(order_by: {id: desc}) {
+  //         content
+  //         id
+  //         user {
+  //           name
+  //           id
+  //         }
+  //       }
+  //     }
+  //   """;
 
-    var jsonList = await connection.query(query);
-    var messages = MessageModel.fromJsonList(jsonList["data"]["messages"]);
-    var randomIndex = Random().nextInt(messages.length);
-    return messages[randomIndex];
-  }
+  //   var jsonList = await connection.query(query);
+  //   var messages = MessageModel.fromJsonList(jsonList["data"]["messages"]);
+  //   var randomIndex = Random().nextInt(messages.length);
+  //   return messages[randomIndex];
+  // }
 
   @override
-  void dispose() {}
+  void dispose() {
+    connection.dispose();
+  }
 }
